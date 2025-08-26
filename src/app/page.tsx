@@ -1,103 +1,114 @@
-import Image from "next/image";
-
-export default function Home() {
+// src/app/page.tsx
+export default function HomePage() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+<main className="min-h-screen bg-gradient-to-br from-[#081226] via-[#0A1E3F] to-[#00050E] text-white">
+      {/* 헤더 */}
+      <header className="sticky top-0 z-40 bg-transparent border-b border-white/10">
+  <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between text-white">
+    <div className="font-bold tracking-tight">Haddangse</div>
+    <nav className="hidden sm:flex gap-4 text-sm">
+      <a href="#about" className="hover:underline">소개</a>
+      <a href="#works" className="hover:underline">작업</a>
+      <a href="#contact" className="hover:underline">문의</a>
+    </nav>
+  </div>
+</header>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+
+      {/* 히어로 */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,#e2e8f0,transparent_40%),radial-gradient(circle_at_80%_10%,#f1f5f9,transparent_40%)]" />
+        <div className="relative max-w-6xl mx-auto px-4 py-24 md:py-32">
+          <h1 className="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight">
+            관객에게 남는 건 <span className="underline decoration-8 decoration-black/80">좋은 경험</span>
+          </h1>
+          <p className="mt-6 text-lg text-black/70 max-w-prose">
+            안녕하세요. 극단 하땅세 홈페이지에 방문하신것을 환영합니다.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a href="#about" className="rounded-2xl px-5 py-3 bg-black text-white hover:opacity-90">더 알아보기</a>
+            <a href="#contact" className="rounded-2xl px-5 py-3 border hover:bg-black/5">문의하기</a>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      </section>
+
+<section id="works" className="max-w-6xl mx-auto px-4 pb-16">
+  <h2 className="text-2xl md:text-3xl font-bold text-white">작업 하이라이트</h2>
+
+  <div className="mt-6 grid gap-4 md:grid-cols-3">
+    {/* 1. 시간을 칠하는 사람 */}
+    <a href="/projects/timepainter"
+       className="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-sm hover:shadow-md transition block">
+      <div className="aspect-video rounded-xl bg-white/10 grid place-items-center text-white/70">
+        이미지 1
+      </div>
+      <div className="mt-3 font-semibold text-white">시간을 칠하는 사람</div>
+      <p className="text-sm text-white/70 mt-1">오브제극 · 기억과 시간</p>
+    </a>
+
+    {/* 2. 그때, 변홍례 */}
+    <a href="/projects/byeon"
+       className="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-sm hover:shadow-md transition block">
+      <div className="aspect-video rounded-xl bg-white/10 grid place-items-center text-white/70">
+        이미지 2
+      </div>
+      <div className="mt-3 font-semibold text-white">그때, 변홍례</div>
+      <p className="text-sm text-white/70 mt-1">실화 기반 블랙코미디</p>
+    </a>
+
+    {/* 3. 고래바위에서 기다려 */}
+    <a href="/projects/whalestone"
+       className="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-sm hover:shadow-md transition block">
+      <div className="aspect-video rounded-xl bg-white/10 grid place-items-center text-white/70">
+        이미지 3
+      </div>
+      <div className="mt-3 font-semibold text-white">고래바위에서 기다려</div>
+      <p className="text-sm text-white/70 mt-1">눕극 · 새로운 연극 경험</p>
+    </a>
+  </div>
+</section>
+
+      {/* 작업 하이라이트 */}
+      <section id="works" className="max-w-6xl mx-auto px-4 pb-16">
+        <h2 className="text-2xl md:text-3xl font-bold">작업 하이라이트</h2>
+        <div className="mt-6 grid gap-4 md:grid-cols-3">
+          {[1,2,3].map((i) => (
+            <div key={i} className="rounded-2xl border bg-white p-4 shadow-sm">
+              <div className="aspect-video rounded-xl bg-gradient-to-br from-gray-100 to-white grid place-items-center text-black/60">
+                이미지 {i}
+              </div>
+              <div className="mt-3 font-semibold">프로젝트 {i}</div>
+              <p className="text-sm text-black/70 mt-1">간단한 설명. 자세한 링크는 추후 추가.</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 문의/푸터 */}
+      <footer id="contact" className="border-t bg-white/70 backdrop-blur">
+        <div className="max-w-6xl mx-auto px-4 py-12 grid md:grid-cols-5 gap-8">
+          <div className="md:col-span-3">
+            <h3 className="text-xl font-semibold">문의</h3>
+            <p className="mt-2 text-black/70">협업/초청은 아래로 연락 주세요.</p>
+            <div className="mt-4 space-y-2 text-sm text-black/80">
+              <div>이메일: contact@example.com</div>
+              <div>전화: +82 10-1234-5678</div>
+              <div>인스타그램: @haddangse</div>
+            </div>
+          </div>
+          <div className="md:col-span-2">
+            <h4 className="font-semibold">빠른 이동</h4>
+            <ul className="mt-3 space-y-2 text-sm">
+              <li><a href="#about" className="hover:underline">소개</a></li>
+              <li><a href="#works" className="hover:underline">작업</a></li>
+              <li><a href="#contact" className="hover:underline">문의</a></li>
+            </ul>
+          </div>
+        </div>
+        <div className="text-center text-xs text-black/50 py-6">
+          © {new Date().getFullYear()} Haddangse. All rights reserved.
+        </div>
       </footer>
-    </div>
+    </main>
   );
 }
