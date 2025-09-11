@@ -1,9 +1,9 @@
-// src/app/about/director/page.tsx
-export default function DirectorPage() {
+// src/app/about/members/page.tsx
+export default function Page() {
   return (
-    <main style={{ padding: 16, maxWidth: 960, margin: "0 auto" }}>
-      <h1>연출소개</h1>
-      <p>연출 약력/작업철학 등을 정리합니다.</p>
-    </main>
+    <div className="prose max-w-none">
+      <h2 className="text-xl font-semibold">단원 소개</h2>
+      <p>단원 소개 내용을 여기에 작성합니다.</p>
+    </div>
   );
 }
