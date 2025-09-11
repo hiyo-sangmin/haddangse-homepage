@@ -1,151 +1,136 @@
-'use client';
+// src/app/page.tsx (Server Component)
+import HeroCarousel from "@/components/HeroCarousel";
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { useMemo, useState } from 'react';
+export default function Page() {
+  // 히어로 슬라이드 이미지 (public/images/xxx에 넣고 /images/xxx로 참조)
+  const slides = [
+    { src: "/images/slide1.jpg", alt: "HADDANGSE – Slide 1" },
+    { src: "/images/slide2.jpg", alt: "HADDANGSE – Slide 2" },
+    { src: "/images/slide3.jpg", alt: "HADDANGSE – Slide 3" },
+  ];
 
-type Card = {
-  title: string;
-  subtitle?: string;
-  href: string;
-  img: string;
-  tag: '공연' | '공간' | '소개';
-};
-
-const CARDS: Card[] = [
-  // 공간 (이미지 없으면 spaces.png 임시사용)
-  { title: '라이트 하우스', subtitle: 'Light House', href: '/spaces/lighthouse', img: '/images/home/spaces.png', tag: '공간' },
-  { title: '라이트 스튜디오', subtitle: 'Light Studio', href: '/spaces/lightstudio', img: '/images/home/spaces.png', tag: '공간' },
-  { title: '극장 1', subtitle: 'Theater 1', href: '/spaces/theater1', img: '/images/home/spaces.png', tag: '공간' },
-  { title: '극장 2', subtitle: 'Theater 2', href: '/spaces/theater2', img: '/images/home/spaces.png', tag: '공간' },
-
-  // 공연 (파일명은 public/images/home 안과 정확히 일치)
-  { title: '위대한놀이', href: '/shows/greatplay', img: '/images/home/greatplay.png', tag: '공연' },
-  { title: '파리대왕', href: '/shows/lord-of-the-flies', img: '/images/home/lordoftheflies.png', tag: '공연' },
-  { title: '동양극장2020 오버코트', href: '/shows/dongyang-2020-overcoat', img: '/images/home/dongyang2020.png', tag: '공연' },
-  { title: '오버코트', href: '/shows/overcoat', img: '/images/home/overcoat.png', tag: '공연' },
-  { title: '그때, 변홍례', href: '/projects/byeon', img: '/images/home/byeon.png', tag: '공연' },
-  { title: '시간을 칠하는 사람', href: '/projects/timepainter', img: '/images/home/timepainter.png', tag: '공연' },
-  { title: '만마디를 대신하는 말 한마디 1', href: '/shows/oneword-1', img: '/images/home/oneword1.png', tag: '공연' },
-  { title: '만마디를 대신하는 말 한마디 2', href: '/shows/oneword-2', img: '/images/home/oneword2.png', tag: '공연' },
-  { title: '고래바위에서 기다려', href: '/projects/whalestone', img: '/images/home/whalestone.png', tag: '공연' },
-  { title: '모비딕', href: '/shows/moby-dick', img: '/images/home/mobydick.png', tag: '공연' },
-  { title: '걸리버여행기 ZOOM IN OUT', href: '/shows/gulliver-zoom', img: '/images/home/gulliver.png', tag: '공연' },
-
-  // 소개
-  { title: '극단 소개', href: '/about/company', img: '/images/home/company.png', tag: '소개' },
-  { title: '단원 소개', href: '/about/members', img: '/images/home/members.png', tag: '소개' },
-  { title: '공간 소개', href: '/about/spaces', img: '/images/home/spaces.png', tag: '소개' },
-];
-
-const FILTERS = ['전체', '공연', '공간', '소개'] as const;
-type Filter = (typeof FILTERS)[number];
-
-/** 왼쪽 소개 사이드바 (모바일에선 상단, 데스크탑에선 왼쪽 고정) */
-function IntroSidebar() {
-  return (
-    <aside className="rounded-lg border bg-white p-5 md:sticky md:top-8 md:h-fit md:p-6">
-      {/* 로고 */}
-      <div className="mx-auto mb-6 w-[180px]">
-        <Image
-          src="/images/brand/mark.png" // 없으면 /images/home/company.png 등으로 교체
-          alt="HADDANGSE"
-          width={360}
-          height={360}
-          className="h-auto w-full rounded-md ring-1 ring-black/10 object-cover"
-          priority
-        />
-      </div>
-
-      {/* 네비게이션 */}
-      <nav className="mb-6 space-y-3 text-lg font-semibold">
-        <Link href="/" className="block hover:underline">HOME</Link>
-        <Link href="/about/company" className="block hover:underline">극단 소개</Link>
-        <Link href="/about/members" className="block hover:underline">단원 소개</Link>
-        <Link href="/about/spaces" className="block hover:underline">공간 소개</Link>
-        <Link href="/contact" className="block hover:underline">CONTACT</Link>
-      </nav>
-
-      {/* 연락처 */}
-      <div className="mb-6 space-y-1 text-[13px] text-neutral-600">
-        <p>Seoul, Korea</p>
-        <p>haddangse.com</p>
-        <p>info@haddangse.com</p>
-      </div>
-
-      {/* 소셜 (간단 텍스트/아이콘 대체) */}
-      <div className="flex items-center gap-3 text-sm text-neutral-600">
-        <a href="https://instagram.com" target="_blank" className="hover:underline">Instagram</a>
-        <span>•</span>
-        <a href="https://facebook.com" target="_blank" className="hover:underline">Facebook</a>
-      </div>
-    </aside>
-  );
-}
-
-export default function HomePage() {
-  const [filter, setFilter] = useState<Filter>('전체');
-
-  const list = useMemo(() => {
-    if (filter === '전체') return CARDS;
-    return CARDS.filter((c) => c.tag === filter);
-  }, [filter]);
+  // 현재 진행 중인 공연 카드 (원하는 만큼 추가)
+  const nowShows = [
+    {
+      title: "그때, 변홍례",
+      period: "매주 토요일 20시",
+      place: "하땅세극장",
+      img: "/images/now1.jpg", // public/images/now1.jpg
+      href: "/shows/byeonhongrye", // 나중에 상세 페이지 연결
+    },
+    {
+      title: "시간을 칠하는 사람 (in 베세토)",
+      period: "9월 20·21",
+      place: "베세토",
+      img: "/images/now2.jpg",
+      href: "/shows/timepainter",
+    },
+    {
+      title: "걸리버여행기 · 워킹홀리데이",
+      period: "10월 16–26 (평일 20시, 주말 15시)",
+      place: "하땅세극장",
+      img: "/images/now3.jpg",
+      href: "/shows/gulliver",
+    },
+  ];
 
   return (
-    <main className="min-h-screen bg-white text-black">
-      <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-8 md:py-12">
-        {/* 2열 레이아웃: 왼쪽 소개(280px) + 오른쪽 콘텐츠 */}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-[280px,1fr]">
-          {/* 모바일에선 상단, 데스크탑에선 좌측 고정 */}
-          <div className="order-1 md:order-none">
-            <IntroSidebar />
-          </div>
+    <main className="w-full">
+      {/* 상단 꽉 찬 히어로 */}
+      <HeroCarousel images={slides} />
 
-          {/* 오른쪽: 필터 + 카드 그리드 */}
-          <section>
-            {/* 상단 필터 */}
-            <div className="mb-6 flex flex-wrap gap-2">
-              {FILTERS.map((f) => (
-                <button
-                  key={f}
-                  onClick={() => setFilter(f)}
-                  className={`rounded-full border px-4 py-1.5 text-sm transition ${
-                    filter === f ? 'bg-black text-white border-black' : 'hover:bg-black/5'
-                  }`}
-                >
-                  {f}
-                </button>
-              ))}
-            </div>
-
-            {/* 카드 그리드 (masonry 비슷) */}
-            <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 [column-fill:_balance]">
-              {list.map((card) => (
-                <article key={card.title} className="mb-6 break-inside-avoid">
-                  <Link href={card.href} className="group block">
-                    <div className="relative w-full overflow-hidden rounded-lg shadow-sm ring-1 ring-black/5">
-                      <Image
-                        src={card.img}
-                        alt={card.title}
-                        width={800}
-                        height={600}
-                        className="h-auto w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-                      />
-                      <div className="absolute left-3 top-3 rounded bg-white/85 px-2 py-1 text-xs font-medium">
-                        {card.tag}
-                      </div>
-                    </div>
-                    <h3 className="mt-3 font-semibold leading-tight">{card.title}</h3>
-                    {card.subtitle && (
-                      <p className="text-[13px] text-neutral-600">{card.subtitle}</p>
-                    )}
-                  </Link>
-                </article>
-              ))}
-            </div>
-          </section>
+      {/* NOW SHOW */}
+      <section className="mx-auto max-w-6xl px-4 py-10">
+        <div className="flex items-end justify-between">
+          <h2 className="text-2xl font-bold tracking-tight">NOW SHOW</h2>
+          <a href="/shows" className="text-sm text-gray-500 hover:text-gray-700">
+            더 보기 →
+          </a>
         </div>
-      </div>
+
+        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {nowShows.map((n) => (
+            <a
+              key={n.title}
+              href={n.href}
+              className="group overflow-hidden rounded-2xl bg-white shadow hover:shadow-lg transition-shadow"
+            >
+              <div className="relative aspect-[3/2] w-full overflow-hidden">
+                <img
+                  src={n.img}
+                  alt={n.title}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <div className="p-4">
+                <h3 className="text-lg font-semibold">{n.title}</h3>
+                <p className="mt-1 text-sm text-gray-600">{n.period}</p>
+                <p className="text-sm text-gray-500">{n.place}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" className="mx-auto max-w-6xl px-4 pb-16">
+        <div className="rounded-2xl bg-white p-6 shadow-sm">
+          <h2 className="text-xl font-bold tracking-tight">Contact</h2>
+          <div className="mt-4 grid gap-4 text-sm text-gray-700 md:grid-cols-2">
+            <p>
+              <span className="font-medium">주소</span> — 서울시 성북구 성북로 5-7 지하1층 (하땅세극장)
+            </p>
+            <p>
+              <span className="font-medium">전화</span> —{" "}
+              <a className="underline underline-offset-2 hover:text-gray-900" href="tel:16002238">
+                1600-2238
+              </a>
+            </p>
+            <p>
+              <span className="font-medium">이메일</span> —{" "}
+              <a
+                className="underline underline-offset-2 hover:text-gray-900"
+                href="mailto:haddangse@daum.net"
+              >
+                haddangse@daum.net
+              </a>
+            </p>
+            <div className="flex items-center gap-4">
+              <a
+                className="text-sm underline underline-offset-2 hover:text-gray-900"
+                href="https://www.instagram.com/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Instagram
+              </a>
+              <a
+                className="text-sm underline underline-offset-2 hover:text-gray-900"
+                href="https://blog.naver.com/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Naver Blog
+              </a>
+              <a
+                className="text-sm underline underline-offset-2 hover:text-gray-900"
+                href="https://haddangse.com"
+                target="_blank"
+                rel="noreferrer"
+              >
+                haddangse.com
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer 간단 버전 (layout에 이미 푸터가 있다면 생략 가능) */}
+      {/* <footer className="border-t border-gray-200 bg-white/70">
+        <div className="mx-auto max-w-6xl px-4 py-6 text-xs text-gray-500">
+          © {new Date().getFullYear()} HADDANGSE. All rights reserved.
+        </div>
+      </footer> */}
     </main>
   );
 }
