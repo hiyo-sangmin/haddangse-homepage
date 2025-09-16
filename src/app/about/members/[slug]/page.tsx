@@ -4,17 +4,25 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-export default function MemberPage({ params }: { params: { slug: string } }) {
-  // 1) 윤시중(또는 data에서 href가 지정된 멤버)이면 즉시 리다이렉트
-  if (params.slug === "kim-hyuntak") {
+// ✅ 올바른 시그니처: { params } 로 구조분해
+export default function MemberPage(
+  { params }: { params: { slug: string } }
+) {
+  const { slug } = params;
+
+  // 1) 특정 멤버는 리다이렉트
+  if (slug === "kim-hyuntak") {
     redirect("/about/director");
   }
-  // 또는 data 기반으로 일반화:
-  const mOverride = members.find(x => x.slug === params.slug && x.href);
-  if (mOverride) redirect(mOverride.href!);
 
-  // 2) 일반 멤버 렌더링
-  const m = members.find(x => x.slug === params.slug);
+  // data에 href가 지정된 멤버면 강제 리다이렉트 (옵션)
+  const mOverride = members.find(x => x.slug === slug && x.href);
+  if (mOverride?.href) {
+    redirect(mOverride.href);
+  }
+
+  // 2) 일반 렌더링
+  const m = members.find(x => x.slug === slug);
   if (!m) return notFound();
 
   return (
@@ -25,7 +33,14 @@ export default function MemberPage({ params }: { params: { slug: string } }) {
 
       <header className="grid gap-8 md:grid-cols-[minmax(260px,380px)_1fr] items-start">
         <div className="relative aspect-[3/4] overflow-hidden rounded-lg bg-gray-100">
-          <Image src={m.image} alt={m.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, 380px" priority />
+          <Image
+            src={m.image}
+            alt={m.name}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 380px"
+            priority
+          />
         </div>
         <div className="space-y-3">
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">{m.name}</h1>
