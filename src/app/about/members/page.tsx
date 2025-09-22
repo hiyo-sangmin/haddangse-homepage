@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { members } from "@/data/members";
 
+const THUMB_FALLBACK = "/images/members/placeholder.jpg";
+
 export default function Page() {
   return (
     <article className="space-y-8">
@@ -13,9 +15,9 @@ export default function Page() {
         {members.map((m) => (
           <li key={m.slug} className="group">
             <Link href={`/about/members/${m.slug}`} className="block">
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg bg-gray-100">
+              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg bg-gray-100">
                 <Image
-                  src={m.image}
+                  src={m.image ?? THUMB_FALLBACK}     // ✅ undefined 방지 (TS 에러 해결)
                   alt={m.name}
                   fill
                   className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
