@@ -4,31 +4,26 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactStrictMode: true,
 
-  // 이미지: /public/images 사용은 기본으로 허용됨.
-  // 외부 도메인 이미지를 쓸 일이 생기면 아래 remotePatterns 주석 해제해서 추가.
   images: {
-    // remotePatterns: [
-    //   { protocol: "https", hostname: "images.example.com" },
-    // ],
+    // 필요 시 외부 이미지 도메인 허용:
+    // remotePatterns: [{ protocol: "https", hostname: "images.example.com" }],
+    formats: ["image/avif", "image/webp"],
   },
 
-  // 배포 중 ESLint 경고/오류로 빌드가 멈추지 않게 (임시 권장)
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  // 빌드 중 린트/타입 에러로 멈추지 않게 (임시)
+  eslint: { ignoreDuringBuilds: true },
+  typescript: { ignoreBuildErrors: true },
 
-  // 배포 중 타입 오류로 빌드가 멈추지 않게 (임시 권장)
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-
-  // 정적 파일(이미지) 캐시 최적화 – 선택 사항
+  // 정적 이미지 캐시 (선택)
   async headers() {
     return [
       {
         source: "/images/:path*",
         headers: [
-          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
         ],
       },
     ];
