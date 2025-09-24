@@ -4,33 +4,31 @@ import Image from "next/image";
 export default function Page() {
   return (
     <article className="space-y-10">
-      {/* 상단 타이틀 */}
-      <header className="space-y-3">
-        <p className="text-black text-4xl font-extrabold tracking-wide"> 윤시중 </p>
-
-        <h1 className="text-2xl md:text-2xl font-bold tracking-tight">
-          ‘연극은 평생 잊지 못할 기억을 선물한다.’
-        </h1>
-      </header>
-
       {/* 2열: 사진 + 본문 (모바일에선 세로 스택) */}
       <section className="grid md:grid-cols-[minmax(280px,420px)_1fr] gap-10 items-start">
         {/* 사진 */}
         <figure className="relative w-full aspect-[3/4] overflow-hidden rounded-2xl border border-gray-200 shadow-sm">
           {/* ▶︎ 사진 교체: /public/images/director/main.jpg 에 넣어두면 됩니다 */}
           <Image
-           src="/images/director/main.png"
-           alt="연출가 윤시중"
-           fill
-           priority
-           className="object-cover"
-           sizes="(max-width: 768px) 100vw, 420px"
-           />
-
+            src="/images/director/main.png"
+            alt="연출가 윤시중"
+            fill
+            priority
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 420px"
+          />
         </figure>
 
-        {/* 본문 */}
+        {/* 본문(오른쪽) — 여기 맨 위로 header만 '이동' */}
         <div className="space-y-6 text-gray-800 leading-relaxed">
+          {/* ⬇️ 기존 상단 타이틀을 오른쪽 칼럼 최상단으로 이동 */}
+          <header className="space-y-3">
+            <p className="text-black text-4xl font-extrabold tracking-wide"> 윤시중 </p>
+            <h1 className="text-2xl md:text-2xl font-bold tracking-tight">
+              ‘연극은 평생 잊지 못할 기억을 선물한다.’
+            </h1>
+          </header>
+
           <p>
             연출과 무대미술의 경계를 허물어 관객에게 새로운 경험을 선사하는 연출가. 하땅세의 연극은
             ‘서사’가 아닌 다양한 ‘언어’로 채워진다. 공연을 만드는 과정은 언어를 만들어가는 과정이자

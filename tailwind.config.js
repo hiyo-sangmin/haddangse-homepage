@@ -1,5 +1,6 @@
 // tailwind.config.js
 module.exports = {
+  darkMode: "media", // OS 다크모드 자동 감지
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {

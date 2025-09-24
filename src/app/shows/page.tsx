@@ -2,11 +2,41 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const shows = [
-  { slug: "gulliver",  title: "걸리버 여행기",       image: "/images/shows/gulliver-main.jpg" },
-  { slug: "timepainter", title: "시간을 칠하는 사람", image: "/images/shows/timepainter-main.jpg" },
-  { slug: "byeon",     title: "그때 변홍례",         image: "/images/shows/byeon-main.jpg" },
-  { slug: "waiting",   title: "고래바위에서 기다려",            image: "/images/shows/waiting-main.jpg" }, // ← 여기만 교체
+type Show = {
+  slug: string;
+  title: string;
+  /** 상세 페이지(메인) 이미지 — 기존 그대로 유지 */
+  image: string;
+  /** 리스트(카드) 전용 이미지 — 네가 새로 넣을 썸네일 */
+  listImage?: string;
+};
+
+const shows: Show[] = [
+  {
+    slug: "gulliver",
+    title: "걸리버 여행기",
+    image: "/images/shows/gulliver-main.jpg",
+    // ⬇️ 리스트(카드)용 썸네일 (네가 준비한 파일로 교체)
+    listImage: "/images/shows/list/gulliver-card.jpg",
+  },
+  {
+    slug: "timepainter",
+    title: "시간을 칠하는 사람",
+    image: "/images/shows/timepainter-main.jpg",
+    listImage: "/images/shows/list/timepainter-card.jpg",
+  },
+  {
+    slug: "byeon",
+    title: "그때 변홍례",
+    image: "/images/shows/byeon-main.jpg",
+    listImage: "/images/shows/list/byeon-card.jpg",
+  },
+  {
+    slug: "waiting",
+    title: "고래바위에서 기다려",
+    image: "/images/shows/waiting-main.jpg",
+    listImage: "/images/shows/list/waiting-card.jpg",
+  },
 ];
 
 export default function ShowsPage() {
@@ -22,10 +52,13 @@ export default function ShowsPage() {
             <Link href={`/shows/${show.slug}`}>
               <div className="relative w-full h-[400px] overflow-hidden group">
                 <Image
-                  src={show.image}
+                  // ✅ 리스트(카드)에서는 listImage 사용, 없으면 기존 image로 폴백
+                  src={show.listImage ?? show.image}
                   alt={show.title}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 1200px"
+                  priority={false}
                 />
                 <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors" />
                 <div className="absolute bottom-8 right-8 text-right">

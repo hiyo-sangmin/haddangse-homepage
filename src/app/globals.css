@@ -26,3 +26,146 @@ body {
 }
 /* 카드가 컬럼에서 잘리지 않게 */
 .break-inside-avoid { break-inside: avoid; }
+/* 데스크톱 메뉴 전용 폰트 사이즈 (부드럽게 반응형 축소/확대) */
+.nav-text {
+  font-size: clamp(18px, 2.0vw, 26px); /* ⬅️ 이전값보다 전체적으로 키움 */
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+/* 필요하면, 중간 화면대역에서 살짝 줄이기 */
+@media (max-width: 1280px) {
+  .nav-text {
+    font-size: clamp(18px, 2.0vw, 30px);
+  }
+}
+
+/* ====== ⬇️ 여기부터 '추가' (기존 것 수정/삭제 없음) ====== */
+
+/* 브라우저에 라이트/다크 색상 체계를 알림 */
+html { color-scheme: light dark; }
+
+/* 타이포 전체가 항상 전경색을 상속하도록 (다크에서 글자 안 보이는 문제 해결) */
+h1,h2,h3,h4,h5,h6,
+p,ol,ul,li,dl,dt,dd,
+blockquote,small,span,label,figcaption,time,
+code,pre,kbd,samp {
+  color: var(--foreground);
+}
+
+/* 링크도 전경색 기준으로 – 다크에서 회색으로 죽지 않게 */
+a { color: var(--foreground); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* prose 컨테이너를 쓰는 본문도 한 번에 반전 */
+.prose { color: var(--foreground); }
+.prose :where(h1,h2,h3,h4,h5,h6,p,li,blockquote,code,pre,small) {
+  color: var(--foreground);
+}
+
+/* 헤더의 네비 텍스트(네가 쓰는 .nav-text)에 다크 대비 적용 */
+header.sticky .nav-text {
+  color: var(--foreground);
+}
+header.sticky .nav-text:hover {
+  opacity: .9;
+}
+
+/* (선택) 연한 구분선이 필요할 때 사용할 수 있는 클래스 */
+.hr-muted, .divider-muted {
+  border-color: color-mix(in oklab, var(--foreground) 20%, transparent);
+}
+
+/* ====== ⬆️ 여기까지 '추가' ====== */
+/* ===== 다크모드에서 회색 계열 텍스트가 흐려지는 문제 강제 보정 ===== */
+@media (prefers-color-scheme: dark) {
+  /* Tailwind의 회색계 유틸(color)들을 전부 전경색으로 강제 */
+  [class*="text-gray-"],
+  [class*="text-zinc-"],
+  [class*="text-neutral-"],
+  [class*="text-slate-"] {
+    color: var(--foreground) !important;
+  }
+
+  /* prose(본문) 내부도 한 번 더 확실히 */
+  .prose,
+  .prose :where(p, li, strong, em, code, pre, blockquote, figcaption,
+                h1, h2, h3, h4, h5, h6) {
+    color: var(--foreground) !important;
+  }
+
+  /* 희미한 보조 텍스트가 필요할 때 쓸 수 있는 클래스(선택) */
+  .text-muted-force { 
+    color: color-mix(in oklab, var(--foreground) 70%, transparent) !important;
+  }
+}
+
+/* 라이트/다크 공통으로 사용할 수 있는 기본 텍스트 유틸 (선택) */
+@layer utilities {
+  .text-default { color: var(--foreground) !important; }
+}
+/* === [추가] Tailwind v4 호환, 다크모드 텍스트 가독성 보강 === */
+
+/* 브라우저에 라이트/다크 컬러 체계 알림 */
+html { color-scheme: light dark; }
+
+/* 이미 가지고 계신 --background/--foreground 변수를 전역 텍스트가 쓰도록 강제 */
+h1,h2,h3,h4,h5,h6,
+p,ol,ul,li,dl,dt,dd,
+blockquote,small,span,label,figcaption,time,
+code,pre,kbd,samp {
+  color: var(--foreground);
+}
+
+/* 링크도 전경색 기준 (다크에서 회색으로 죽지 않게) */
+a { color: var(--foreground); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* prose(본문)도 일괄 반영 */
+.prose,
+.prose :where(h1,h2,h3,h4,h5,h6,p,li,blockquote,code,pre,small) {
+  color: var(--foreground);
+}
+
+/* 헤더 내 메뉴 텍스트(.nav-text)도 전경색 유지 */
+header.sticky .nav-text { color: var(--foreground); }
+header.sticky .nav-text:hover { opacity: .9; }
+
+/* 다크에서 회색계 텍스트가 흐려지는 문제를 강하게 보정 */
+@media (prefers-color-scheme: dark) {
+  [class*="text-gray-"],
+  [class*="text-zinc-"],
+  [class*="text-neutral-"],
+  [class*="text-slate-"] {
+    color: var(--foreground) !important;
+  }
+
+  .prose,
+  .prose :where(p, li, strong, em, code, pre, blockquote, figcaption,
+                h1, h2, h3, h4, h5, h6) {
+    color: var(--foreground) !important;
+  }
+}
+
+/* Tailwind v4에서 커스텀 유틸은 @utility로 추가 */
+@utility text-default {
+  color: var(--foreground) !important;
+}
+/* === 헤더는 항상 흰 배경 + 진한 글자(라이트/다크 공통)로 고정 === */
+header.sticky {
+  /* 헤더 자체 컬러 변수(이 영역 안의 요소들이 상속) */
+  --background: #ffffff;      /* 흰 배경 유지 */
+  --foreground: #111827;      /* 진한 글자(= slate-900 계열) */
+  color: var(--foreground);
+  background: var(--background);
+}
+
+/* 다크모드에서도 헤더는 동일하게 고정(덮어쓰기) */
+@media (prefers-color-scheme: dark) {
+  header.sticky {
+    --background: #ffffff;
+    --foreground: #111827;
+    color: var(--foreground);
+    background: var(--background);
+  }
+}

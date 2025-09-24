@@ -6,6 +6,7 @@ import HeroOverlayHeader from "@/components/HeroOverlayHeader";
 export const metadata: Metadata = {
   title: "HADDANGSE",
   description: "극단 하땅세 공식 홈페이지",
+  icons: "/favicon.ico", // ← public/favicon.ico 사용
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
